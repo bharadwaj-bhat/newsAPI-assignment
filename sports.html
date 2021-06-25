@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sports </title>
+
+    <style>
+
+        
+   body{
+       font-family: 'Roboto', sans-serif;
+
+   }
+    #cont{
+        width:60%;
+        margin:auto;
+    }
+
+     #cont > div{
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        grid-gap:50px;
+        margin-bottom: 50px;
+    }
+    img{
+        width:150px;
+        margin-top:35px;
+    }
+    #pub{
+        font-size: 0.8rem;
+        color:grey;
+    }
+
+    .hclass {
+        color:rgb(43, 190, 248);
+    }
+
+
+    .navBar{
+        display:flex;
+        font-weight: 600;
+        background-color:rgb(43, 190, 248);
+        width:100%;
+        height: 50px;
+        color:white;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
+       }
+
+    a{
+        text-decoration: none;
+        color:white;
+        margin:0px 20px;
+    }
+    a:hover{
+        transform: scale(1.1);
+        transition: linear 0.1s;
+    }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="navBar">
+        <a href="newsAPI.html"> Home</a>
+        <a href="sports.html"> Sports </a>
+        <a href="entertainment.html"> Entertainment </a>
+        <a href="technology.html"> Technology </a>
+    </div>
+    
+    <div id="cont"></div>
+    
+</body>
+</html>
+<script>
+
+    var cont = document.getElementById('cont');
+    var data;
+    async function fethcing(){
+        let res = await fetch('https://newsapi.org/v2/top-headlines?country=in&category=sports&apiKey=de911194e09148539d0138084e483846');
+        let response = await res.json();
+        data = response.articles;
+        console.log(data);
+        showData();
+    }
+    fethcing();
+
+    function showData() {
+            for (let i = 7; i < 18; i++) {
+
+                if(i == 9){continue;}
+                let div = document.createElement('div');
+                let div2 = document.createElement('div')
+                let wrap = document.createElement('div')
+
+                let img = document.createElement('img');
+                img.src = data[i].urlToImage;
+
+                let title = document.createElement('h3');
+                title.setAttribute('class', 'hclass')
+                title.innerHTML = data[i].author;
+
+                let parah = document.createElement('p');
+                parah.innerHTML = data[i].title;
+
+                let time = document.createElement('p');
+                time.setAttribute('id', 'pub')
+                time.innerHTML = `Published At :- ${data[i].publishedAt}`;
+
+
+                div.append(title, parah, time);
+                div2.append(img)
+
+                wrap.append(div2, div)
+
+                cont.append(wrap);
+            }
+        }
+</script>
